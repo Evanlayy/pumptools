@@ -1,0 +1,645 @@
+:root {
+    --primary-color: #2c2c2c;
+    --secondary-color: #3c3c3c;
+    --accent-color: #00e65c;
+    --accent-glow: #00e65c15;
+    --text-color: #ffffff;
+    --hover-color: #00cc55;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.social-button {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-button:hover {
+    color: var(--accent-color);
+}
+
+.buy-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+    background-color: var(--hover-color);
+}
+
+.webhook-config {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.webhook-input, .search-input, .tool-input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid var(--secondary-color);
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.save-button, .start-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover, .start-button:hover {
+    background-color: var(--hover-color);
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tool-card {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.tool-controls {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.tool-input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    margin: 0;
+    min-height: 20px;
+    background-color: var(--primary-color);
+    position: relative;
+}
+
+.tool-input::placeholder {
+    animation: slideText 12s infinite linear;
+    display: inline-block;
+    white-space: nowrap;
+    position: relative;
+    will-change: transform;
+    transition: opacity 0.3s ease;
+    opacity: 0.7;
+}
+
+.tool-input:hover::placeholder {
+    animation-play-state: paused;
+    opacity: 1;
+}
+
+.tool-input:not(:placeholder-shown) {
+    text-indent: initial;
+}
+
+.start-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+h2 {
+    margin: 0 0 0.5rem 0;
+    color: var(--accent-color);
+}
+
+p {
+    margin: 0 0 1rem 0;
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
+
+/* Prevent horizontal scrollbar */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: var(--secondary-color);
+    margin: 15% auto;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    transform: translateY(-50px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.close-button {
+    display: none;
+}
+
+.guide-steps {
+    margin: 2rem 0;
+}
+
+.guide-step {
+    margin-bottom: 1.5rem;
+}
+
+.guide-step h3 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Animation for the Monitor button */
+@keyframes monitoring {
+    0% { content: "Monitoring"; }
+    33% { content: "Monitoring."; }
+    66% { content: "Monitoring.."; }
+    100% { content: "Monitoring..."; }
+}
+
+.save-button.monitoring::after {
+    content: "Monitoring";
+    animation: monitoring 1.5s infinite;
+}
+
+.save-button.monitoring {
+    background-color: var(--hover-color);
+    pointer-events: none;
+}
+
+.guide-steps .guide-step {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.guide-steps .guide-step.active {
+    display: block;
+    opacity: 1;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    right: 0;
+    top: -20px;
+    color: var(--text-color);
+}
+
+.save-button.monitoring {
+    background-color: var(--hover-color);
+    pointer-events: none;
+    font-size: 0;
+}
+
+.save-button.monitoring::after {
+    font-size: 1rem;
+    content: "Monitoring";
+    animation: monitoring 1.5s infinite;
+}
+
+@keyframes monitoring {
+    0% { content: "Monitoring"; }
+    33% { content: "Monitoring."; }
+    66% { content: "Monitoring.."; }
+    100% { content: "Monitoring..."; }
+}
+
+#nextStep {
+    transition: all 0.3s ease;
+    background-color: #666;
+}
+
+#nextStep:hover {
+    transform: translateY(-2px);
+}
+
+/* Pixelated text effect and green outlines */
+h1, h2, h3, .logo-text {
+    text-shadow: 
+        0 0 1px var(--accent-color),
+        0 0 2px var(--accent-color),
+        0 0 4px rgba(76, 175, 80, 0.2);
+    letter-spacing: 1px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+/* Logo styles */
+.logo-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    background-color: var(--secondary-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 0 5px var(--accent-glow),
+        inset 0 0 10px var(--accent-glow);
+    padding: 6px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    box-shadow: 
+        0 0 10px var(--accent-color),
+        inset 0 0 15px var(--accent-glow);
+    transform: scale(1.05);
+}
+
+.logo-text {
+    display: none;
+}
+
+.hammer-logo {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transform: rotate(-45deg);
+    filter: drop-shadow(0 0 3px var(--accent-color));
+}
+
+.hammer-head {
+    fill: var(--accent-color);
+    transition: fill 0.3s ease;
+}
+
+.hammer-handle {
+    fill: var(--hover-color);
+    transition: fill 0.3s ease;
+    stroke: var(--accent-color);
+    stroke-width: 0.5;
+}
+
+.hammer-grip {
+    stroke: var(--accent-color);
+    stroke-width: 0.5;
+    fill: none;
+    opacity: 0.8;
+}
+
+.hammer-glow {
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 0.5;
+    opacity: 0.2;
+    animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        stroke-width: 0.5;
+        opacity: 0.2;
+        transform: scale(0.98);
+    }
+    to {
+        stroke-width: 1;
+        opacity: 0.4;
+        transform: scale(1.02);
+    }
+}
+
+.logo:hover .hammer-head {
+    fill: #00ff88;
+}
+
+.logo:hover .hammer-handle {
+    fill: var(--accent-color);
+    stroke: #00ff88;
+}
+
+.logo:hover .hammer-grip {
+    stroke: #00ff88;
+}
+
+.logo-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        var(--accent-glow) 0%,
+        transparent 70%);
+    animation: glow 2s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes glow {
+    from {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+}
+
+.logo:hover .hammer-logo {
+    animation: hammerRotate 0.3s ease-out forwards;
+}
+
+@keyframes hammerRotate {
+    0% {
+        transform: rotate(-45deg) scale(1);
+    }
+    50% {
+        transform: rotate(-30deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(-45deg) scale(1);
+    }
+}
+
+/* Update existing text styles */
+p {
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+}
+
+.tool-card {
+    border: 1px solid var(--accent-color);
+    box-shadow: 
+        0 0 5px rgba(76, 175, 80, 0.05),
+        inset 0 0 10px rgba(76, 175, 80, 0.02);
+}
+
+.tool-card:hover {
+    box-shadow: 
+        0 5px 15px rgba(76, 175, 80, 0.1),
+        inset 0 0 20px rgba(76, 175, 80, 0.05);
+}
+
+/* Update input styles */
+.webhook-input, .search-input, .tool-input {
+    border: 1px solid var(--accent-color);
+    box-shadow: 
+        0 0 3px rgba(76, 175, 80, 0.1),
+        inset 0 0 5px rgba(76, 175, 80, 0.05);
+    font-family: 'Courier New', monospace;
+}
+
+/* Update button styles */
+.save-button, .start-button, .buy-button {
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+}
+
+/* Modal content update */
+.modal-content {
+    border: 1px solid var(--accent-color);
+    box-shadow: 
+        0 0 20px rgba(76, 175, 80, 0.2),
+        inset 0 0 30px rgba(76, 175, 80, 0.1);
+}
+
+/* Progress bar update */
+.progress {
+    box-shadow: 0 0 5px var(--accent-color);
+}
+
+/* Make tool descriptions more compact */
+.tool-card p {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.9rem;
+}
+
+/* Adjust tool card title size */
+.tool-card h2 {
+    font-size: 1.2rem;
+    margin: 0 0 0.4rem 0;
+}
+
+/* Update the sliding text animation */
+@keyframes slideText {
+    0%, 15% {
+        transform: translateX(0);
+    }
+    85%, 100% {
+        transform: translateX(calc(-100% + 150px));  /* Adjust the 150px value based on your input width */
+    }
+}
+
+.tool-input::placeholder {
+    animation: slideText 12s infinite linear;
+    display: inline-block;
+    white-space: nowrap;
+    position: relative;
+    will-change: transform;
+}
+
+/* Remove these properties from the input itself */
+.tool-input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    margin: 0;
+    min-height: 20px;
+    background-color: var(--primary-color);
+    position: relative;
+}
+
+/* Pause animation on hover */
+.tool-input:hover::placeholder {
+    animation-play-state: paused;
+}
+
+/* Remove any conflicting styles */
+.tool-input:not(:placeholder-shown) {
+    text-indent: initial;
+}
+
+.tool-controls {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Add smooth transition for placeholder text */
+.tool-input::placeholder {
+    transition: opacity 0.3s ease;
+    opacity: 0.7;
+}
+
+.tool-input:hover::placeholder {
+    opacity: 1;
+}
+
+/* Add these styles for active monitoring state */
+.tool-card.active-monitoring {
+    border-color: var(--accent-color);
+    box-shadow: 
+        0 0 10px var(--accent-glow),
+        inset 0 0 20px var(--accent-glow);
+    animation: pulseCard 2s infinite ease-in-out;
+}
+
+@keyframes pulseCard {
+    0% {
+        border-color: var(--accent-color);
+    }
+    50% {
+        border-color: var(--hover-color);
+    }
+    100% {
+        border-color: var(--accent-color);
+    }
+}
+
+.start-button.monitoring {
+    background-color: var(--hover-color);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px var(--accent-glow);
+    }
+    50% {
+        box-shadow: 0 0 15px var(--accent-color);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--accent-glow);
+    }
+}
+
+/* Add webhook input validation styles */
+.webhook-input.invalid {
+    animation: shake 0.5s ease-in-out;
+    border-color: #ff4444 !important;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.webhook-input {
+    transition: all 0.3s ease;
+}
+
+.webhook-input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+  
